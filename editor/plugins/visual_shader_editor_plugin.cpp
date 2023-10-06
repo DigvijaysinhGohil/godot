@@ -6205,6 +6205,10 @@ VisualShaderEditor::VisualShaderEditor() {
 	add_options.push_back(AddOption("Vector4Constant", "Vector/Variables", "VisualShaderNodeVec4Constant", TTR("4D vector constant."), {}, VisualShaderNode::PORT_TYPE_VECTOR_4D));
 	add_options.push_back(AddOption("Vector4Parameter", "Vector/Variables", "VisualShaderNodeVec4Parameter", TTR("4D vector parameter."), {}, VisualShaderNode::PORT_TYPE_VECTOR_4D));
 
+	// UV
+
+	add_options.push_back(AddOption("Twirl", "UV", "VisualShaderNodeUVTwirl", TTR("Applies a twirl warping effect similar to a black hole to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
+
 	// SPECIAL
 
 	add_options.push_back(AddOption("Expression", "Special", "VisualShaderNodeExpression", TTR("Custom Godot Shader Language expression, with custom amount of input and output ports. This is a direct injection of code into the vertex/fragment/light function, do not use it to write the function declarations inside.")));

@@ -637,6 +637,7 @@ void register_scene_types() {
 	GDREGISTER_CLASS(VisualShaderNodeTransformFunc);
 	GDREGISTER_CLASS(VisualShaderNodeUVFunc);
 	GDREGISTER_CLASS(VisualShaderNodeUVPolarCoord);
+	GDREGISTER_CLASS(VisualShaderNodeUVTwirl);
 	GDREGISTER_CLASS(VisualShaderNodeDotProduct);
 	GDREGISTER_CLASS(VisualShaderNodeVectorLen);
 	GDREGISTER_CLASS(VisualShaderNodeDeterminant);
