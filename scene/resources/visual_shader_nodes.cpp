@@ -8149,6 +8149,141 @@ VisualShaderNodeRotationByAxis::VisualShaderNodeRotationByAxis() {
 	simple_decl = false;
 }
 
+////////////// UV Rotate
+
+String VisualShaderNodeRotateUV::get_caption() const {
+	return "RotateUV";
+}
+
+int VisualShaderNodeRotateUV::get_input_port_count() const {
+	return 3;
+}
+
+VisualShaderNodeRotateUV::PortType VisualShaderNodeRotateUV::get_input_port_type(int p_port) const {
+	switch (p_port) {
+		case 0:
+			return PORT_TYPE_VECTOR_2D; // uv
+		case 1:
+			return PORT_TYPE_VECTOR_2D; // center
+		case 2:
+			return PORT_TYPE_SCALAR; // rotation
+		default:
+			break;
+	}
+	return PORT_TYPE_SCALAR;
+}
+
+String VisualShaderNodeRotateUV::get_input_port_name(int p_port) const {
+	switch (p_port) {
+		case 0:
+			return "uv";
+		case 1:
+			return "center";
+		case 2:
+			return "rotation";
+		default:
+			break;
+	}
+	return "";
+}
+
+bool VisualShaderNodeRotateUV::is_input_port_default(int p_port, Shader::Mode p_mode) const {
+	if (p_mode == Shader::MODE_CANVAS_ITEM || p_mode == Shader::MODE_SPATIAL) {
+		if (p_port == 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+int VisualShaderNodeRotateUV::get_output_port_count() const {
+	return 1;
+}
+
+VisualShaderNodeRotateUV::PortType VisualShaderNodeRotateUV::get_output_port_type(int p_port) const {
+	return PORT_TYPE_VECTOR_2D;
+}
+
+String VisualShaderNodeRotateUV::get_output_port_name(int p_port) const {
+	return "uv";
+}
+
+bool VisualShaderNodeRotateUV::is_show_prop_names() const {
+	return true;
+}
+
+String VisualShaderNodeRotateUV::generate_code(Shader::Mode p_mode, VisualShader::Type p_type, int p_id, const String *p_input_vars, const String *p_output_vars, bool p_for_preview) const {
+	String code;
+	code += "	{\n";
+
+	String uv;
+	if (p_input_vars[0].is_empty()) {
+		if (p_mode == Shader::MODE_CANVAS_ITEM || p_mode == Shader::MODE_SPATIAL) {
+			uv = "UV";
+		} else {
+			uv = "vec2(0.0)";
+		}
+	} else {
+		uv = vformat("%s", p_input_vars[0]);
+	}
+	String center = vformat("%s", p_input_vars[1]);
+	String rotation = vformat("%s", p_input_vars[2]);
+
+	if (func == FUNC_DEGREES) {
+		code += vformat("		%s = %s*(3.1415926/180.0);\n", rotation, rotation);
+	}
+
+	code += vformat("		vec2 __uv = %s;\n", uv);
+	code += vformat("		__uv -= %s;\n", center);
+	code += vformat("		float __s = sin(%s);\n", rotation);
+	code += vformat("		float __c = cos(%s);\n", rotation);
+	code += "		mat2 __rotation_matrix = mat2( vec2(__c, -__s), vec2(__s, __c) );\n";
+	code += "		__rotation_matrix *= 0.5;\n";
+	code += "		__rotation_matrix += 0.5;\n";
+	code += "		__rotation_matrix = __rotation_matrix*2.0-1.0;\n";
+	code += "		__uv.xy = __uv.xy*__rotation_matrix;\n";
+	code += vformat("		__uv += %s;\n", center);
+	code += vformat("		%s = __uv;\n", p_output_vars[0]);
+	code += "	}\n";
+	return code;
+}
+
+void VisualShaderNodeRotateUV::set_function(Function p_func) {
+	ERR_FAIL_INDEX(int(p_func), int(FUNC_MAX));
+	if (func == p_func) {
+		return;
+	}
+	func = p_func;
+	emit_changed();
+}
+
+VisualShaderNodeRotateUV::Function VisualShaderNodeRotateUV::get_function() const {
+	return func;
+}
+
+Vector<StringName> VisualShaderNodeRotateUV::get_editable_properties() const {
+	Vector<StringName> props;
+	props.push_back("units");
+	return props;
+}
+
+void VisualShaderNodeRotateUV::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("set_function", "func"), &VisualShaderNodeRotateUV::set_function);
+	ClassDB::bind_method(D_METHOD("get_function"), &VisualShaderNodeRotateUV::get_function);
+
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "units", PROPERTY_HINT_ENUM, "Degrees,Radians"), "set_function", "get_function");
+
+	BIND_ENUM_CONSTANT(FUNC_DEGREES);
+	BIND_ENUM_CONSTANT(FUNC_RADIANS);
+	BIND_ENUM_CONSTANT(FUNC_MAX);
+}
+
+VisualShaderNodeRotateUV::VisualShaderNodeRotateUV() {
+	set_input_port_default_value(1, Vector2(0.5, 0.5)); // center
+	set_input_port_default_value(2, 0.0); // rotation
+	simple_decl = false;
+}
+
 ////////////// UV Tiling and Offset
 
 String VisualShaderNodeUVTilingAndOffset::get_caption() const {
@@ -8178,7 +8313,7 @@ String VisualShaderNodeUVTilingAndOffset::get_input_port_name(int p_port) const 
 		case 0:
 			return "uv";
 		case 1:
-			return "center";
+			return "tiling";
 		case 2:
 			return "offset";
 		default:

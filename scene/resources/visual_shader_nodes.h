@@ -2972,6 +2972,51 @@ public:
 };
 
 ///////////////////////////////////////
+/// UV ROTATE
+///////////////////////////////////////
+
+class VisualShaderNodeRotateUV : public VisualShaderNode {
+	GDCLASS(VisualShaderNodeRotateUV, VisualShaderNode);
+
+public:
+	enum Function {
+		FUNC_DEGREES,
+		FUNC_RADIANS,
+		FUNC_MAX,
+	};
+
+protected:
+	Function func = FUNC_DEGREES;
+
+	static void _bind_methods();
+
+public:
+	virtual String get_caption() const override;
+
+	virtual int get_input_port_count() const override;
+	virtual PortType get_input_port_type(int p_port) const override;
+	virtual String get_input_port_name(int p_port) const override;
+	virtual bool is_input_port_default(int p_port, Shader::Mode p_mode) const override;
+
+	virtual int get_output_port_count() const override;
+	virtual PortType get_output_port_type(int p_port) const override;
+	virtual String get_output_port_name(int p_port) const override;
+
+	virtual bool is_show_prop_names() const override;
+
+	virtual String generate_code(Shader::Mode p_mode, VisualShader::Type p_type, int p_id, const String *p_input_vars, const String *p_output_vars, bool p_for_preview = false) const override;
+
+	void set_function(Function p_func);
+	Function get_function() const;
+
+	virtual Vector<StringName> get_editable_properties() const override;
+
+	VisualShaderNodeRotateUV();
+};
+
+VARIANT_ENUM_CAST(VisualShaderNodeRotateUV::Function)
+
+///////////////////////////////////////
 /// UV TILING AND OFFSET
 ///////////////////////////////////////
 
