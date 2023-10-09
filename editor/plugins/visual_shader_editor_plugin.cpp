@@ -6207,6 +6207,7 @@ VisualShaderEditor::VisualShaderEditor() {
 
 	// UV
 
+	add_options.push_back(AddOption("TilingAndOffset", "UV", "VisualShaderNodeUVTilingAndOffset", TTR("Tiles and offsets the value of input UV by the inputs Tiling and Offset respectively. This is commonly used for detail maps and scrolling textures over TIME."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
 	add_options.push_back(AddOption("Twirl", "UV", "VisualShaderNodeUVTwirl", TTR("Applies a twirl warping effect similar to a black hole to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
 
 	// SPECIAL

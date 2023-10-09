@@ -637,7 +637,6 @@ void register_scene_types() {
 	GDREGISTER_CLASS(VisualShaderNodeTransformFunc);
 	GDREGISTER_CLASS(VisualShaderNodeUVFunc);
 	GDREGISTER_CLASS(VisualShaderNodeUVPolarCoord);
-	GDREGISTER_CLASS(VisualShaderNodeUVTwirl);
 	GDREGISTER_CLASS(VisualShaderNodeDotProduct);
 	GDREGISTER_CLASS(VisualShaderNodeVectorLen);
 	GDREGISTER_CLASS(VisualShaderNodeDeterminant);
@@ -716,6 +715,9 @@ void register_scene_types() {
 	GDREGISTER_CLASS(VisualShaderNodeParticleRandomness);
 	GDREGISTER_CLASS(VisualShaderNodeParticleAccelerator);
 	GDREGISTER_CLASS(VisualShaderNodeParticleEmit);
+
+	GDREGISTER_CLASS(VisualShaderNodeUVTilingAndOffset);
+	GDREGISTER_CLASS(VisualShaderNodeUVTwirl);
 
 	GDREGISTER_VIRTUAL_CLASS(Material);
 	GDREGISTER_CLASS(PlaceholderMaterial);
