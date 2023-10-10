@@ -6006,6 +6006,13 @@ VisualShaderEditor::VisualShaderEditor() {
 	add_options.push_back(AddOption("RotationByAxis", "Utility", "VisualShaderNodeRotationByAxis", TTR("Rotates an input vector by a given angle."), {}, VisualShaderNode::PORT_TYPE_VECTOR_3D, TYPE_FLAGS_FRAGMENT, Shader::MODE_SPATIAL));
 	add_options.push_back(AddOption("RotationByAxis", "Utility", "VisualShaderNodeRotationByAxis", TTR("Rotates an input vector by a given angle."), {}, VisualShaderNode::PORT_TYPE_VECTOR_3D, TYPE_FLAGS_VERTEX, Shader::MODE_SPATIAL));
 
+	// UV
+
+	add_options.push_back(AddOption("RadialShear", "UV", "VisualShaderNodeUVRadialShear", TTR("Applies a radial shear warping effect similar to a wave to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
+	add_options.push_back(AddOption("RotateUV", "UV", "VisualShaderNodeRotateUV", TTR("Rotates value of input UV around a reference point defined by input Center by the amount of input Rotation."), { VisualShaderNodeRotateUV::FUNC_DEGREES }, VisualShaderNode::PORT_TYPE_VECTOR_2D));
+	add_options.push_back(AddOption("TilingAndOffset", "UV", "VisualShaderNodeUVTilingAndOffset", TTR("Tiles and offsets the value of input UV by the inputs Tiling and Offset respectively. This is commonly used for detail maps and scrolling textures over TIME."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
+	add_options.push_back(AddOption("Twirl", "UV", "VisualShaderNodeUVTwirl", TTR("Applies a twirl warping effect similar to a black hole to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
+
 	// VECTOR
 
 	add_options.push_back(AddOption("VectorFunc", "Vector/Common", "VisualShaderNodeVectorFunc", TTR("Vector function."), {}, VisualShaderNode::PORT_TYPE_VECTOR_3D));
@@ -6204,12 +6211,6 @@ VisualShaderEditor::VisualShaderEditor() {
 	add_options.push_back(AddOption("Vector3Parameter", "Vector/Variables", "VisualShaderNodeVec3Parameter", TTR("3D vector parameter."), {}, VisualShaderNode::PORT_TYPE_VECTOR_3D));
 	add_options.push_back(AddOption("Vector4Constant", "Vector/Variables", "VisualShaderNodeVec4Constant", TTR("4D vector constant."), {}, VisualShaderNode::PORT_TYPE_VECTOR_4D));
 	add_options.push_back(AddOption("Vector4Parameter", "Vector/Variables", "VisualShaderNodeVec4Parameter", TTR("4D vector parameter."), {}, VisualShaderNode::PORT_TYPE_VECTOR_4D));
-
-	// UV
-
-	add_options.push_back(AddOption("RotateUV", "UV", "VisualShaderNodeRotateUV", TTR("Rotates value of input UV around a reference point defined by input Center by the amount of input Rotation."), { VisualShaderNodeRotateUV::FUNC_DEGREES }, VisualShaderNode::PORT_TYPE_VECTOR_2D));
-	add_options.push_back(AddOption("TilingAndOffset", "UV", "VisualShaderNodeUVTilingAndOffset", TTR("Tiles and offsets the value of input UV by the inputs Tiling and Offset respectively. This is commonly used for detail maps and scrolling textures over TIME."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
-	add_options.push_back(AddOption("Twirl", "UV", "VisualShaderNodeUVTwirl", TTR("Applies a twirl warping effect similar to a black hole to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
 
 	// SPECIAL
 

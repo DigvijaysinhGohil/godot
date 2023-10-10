@@ -716,6 +716,7 @@ void register_scene_types() {
 	GDREGISTER_CLASS(VisualShaderNodeParticleAccelerator);
 	GDREGISTER_CLASS(VisualShaderNodeParticleEmit);
 
+	GDREGISTER_CLASS(VisualShaderNodeUVRadialShear);
 	GDREGISTER_CLASS(VisualShaderNodeRotateUV);
 	GDREGISTER_CLASS(VisualShaderNodeUVTilingAndOffset);
 	GDREGISTER_CLASS(VisualShaderNodeUVTwirl);
