@@ -718,6 +718,7 @@ void register_scene_types() {
 
 	GDREGISTER_CLASS(VisualShaderNodeUVRadialShear);
 	GDREGISTER_CLASS(VisualShaderNodeRotateUV);
+	GDREGISTER_CLASS(VisualShaderNodeUVSpherize);
 	GDREGISTER_CLASS(VisualShaderNodeUVTilingAndOffset);
 	GDREGISTER_CLASS(VisualShaderNodeUVTwirl);
 

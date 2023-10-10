@@ -8240,7 +8240,7 @@ String VisualShaderNodeUVRadialShear::generate_code(Shader::Mode p_mode, VisualS
 
 VisualShaderNodeUVRadialShear::VisualShaderNodeUVRadialShear() {
 	set_input_port_default_value(1, Vector2(0.5, 0.5)); // center
-	set_input_port_default_value(2, 0.0); // strength
+	set_input_port_default_value(2, 10.0); // strength
 	set_input_port_default_value(3, Vector2(0.0, 0.0)); // offset
 
 	simple_decl = false;
@@ -8378,6 +8378,104 @@ void VisualShaderNodeRotateUV::_bind_methods() {
 VisualShaderNodeRotateUV::VisualShaderNodeRotateUV() {
 	set_input_port_default_value(1, Vector2(0.5, 0.5)); // center
 	set_input_port_default_value(2, 0.0); // rotation
+	simple_decl = false;
+}
+
+////////////// UV Spherize
+
+String VisualShaderNodeUVSpherize::get_caption() const {
+	return "Spherize";
+}
+
+int VisualShaderNodeUVSpherize::get_input_port_count() const {
+	return 4;
+}
+
+VisualShaderNodeUVSpherize::PortType VisualShaderNodeUVSpherize::get_input_port_type(int p_port) const {
+	switch (p_port) {
+		case 0:
+			return PORT_TYPE_VECTOR_2D; // uv
+		case 1:
+			return PORT_TYPE_VECTOR_2D; // center
+		case 2:
+			return PORT_TYPE_SCALAR; // strength
+		case 3:
+			return PORT_TYPE_VECTOR_2D; // offset
+		default:
+			break;
+	}
+	return PORT_TYPE_SCALAR;
+}
+
+String VisualShaderNodeUVSpherize::get_input_port_name(int p_port) const {
+	switch (p_port) {
+		case 0:
+			return "uv";
+		case 1:
+			return "center";
+		case 2:
+			return "strength";
+		case 3:
+			return "offset";
+		default:
+			break;
+	}
+	return "";
+}
+
+bool VisualShaderNodeUVSpherize::is_input_port_default(int p_port, Shader::Mode p_mode) const {
+	if (p_mode == Shader::MODE_CANVAS_ITEM || p_mode == Shader::MODE_SPATIAL) {
+		if (p_port == 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+int VisualShaderNodeUVSpherize::get_output_port_count() const {
+	return 1;
+}
+
+VisualShaderNodeUVSpherize::PortType VisualShaderNodeUVSpherize::get_output_port_type(int p_port) const {
+	return PORT_TYPE_VECTOR_2D;
+}
+
+String VisualShaderNodeUVSpherize::get_output_port_name(int p_port) const {
+	return "uv";
+}
+
+String VisualShaderNodeUVSpherize::generate_code(Shader::Mode p_mode, VisualShader::Type p_type, int p_id, const String *p_input_vars, const String *p_output_vars, bool p_for_preview) const {
+	String code;
+	code += "	{\n";
+
+	String uv;
+	if (p_input_vars[0].is_empty()) {
+		if (p_mode == Shader::MODE_CANVAS_ITEM || p_mode == Shader::MODE_SPATIAL) {
+			uv = "UV";
+		} else {
+			uv = "vec2(0.0)";
+		}
+	} else {
+		uv = vformat("%s", p_input_vars[0]);
+	}
+	String center = vformat("%s", p_input_vars[1]);
+	String strength = vformat("%s", p_input_vars[2]);
+	String offset = vformat("%s", p_input_vars[3]);
+
+	code += vformat("		vec2 __delta = %s-%s;\n", uv, center);
+	code += "		float __delta2 = dot(__delta.xy, __delta.xy);\n";
+	code += "		float __delta4 = __delta2*__delta2;\n";
+	code += vformat("		vec2 __delta_offset = vec2(__delta4*%s);\n", strength);
+	code += vformat("		%s = %s+__delta*__delta_offset+%s;\n", p_output_vars[0], uv, offset);
+	code += "	}\n";
+	return code;
+}
+
+VisualShaderNodeUVSpherize::VisualShaderNodeUVSpherize() {
+	set_input_port_default_value(1, Vector2(0.5, 0.5)); // center
+	set_input_port_default_value(2, 10.0); // strength
+	set_input_port_default_value(3, Vector2(0.0, 0.0)); // offset
+
 	simple_decl = false;
 }
 

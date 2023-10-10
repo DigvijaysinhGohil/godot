@@ -6010,6 +6010,7 @@ VisualShaderEditor::VisualShaderEditor() {
 
 	add_options.push_back(AddOption("RadialShear", "UV", "VisualShaderNodeUVRadialShear", TTR("Applies a radial shear warping effect similar to a wave to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
 	add_options.push_back(AddOption("RotateUV", "UV", "VisualShaderNodeRotateUV", TTR("Rotates value of input UV around a reference point defined by input Center by the amount of input Rotation."), { VisualShaderNodeRotateUV::FUNC_DEGREES }, VisualShaderNode::PORT_TYPE_VECTOR_2D));
+	add_options.push_back(AddOption("Spherize", "UV", "VisualShaderNodeUVSpherize", TTR("Applies a spherical warping effect similar to a fisheye camera lens to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
 	add_options.push_back(AddOption("TilingAndOffset", "UV", "VisualShaderNodeUVTilingAndOffset", TTR("Tiles and offsets the value of input UV by the inputs Tiling and Offset respectively. This is commonly used for detail maps and scrolling textures over TIME."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
 	add_options.push_back(AddOption("Twirl", "UV", "VisualShaderNodeUVTwirl", TTR("Applies a twirl warping effect similar to a black hole to the value of input UV."), {}, VisualShaderNode::PORT_TYPE_VECTOR_2D));
 
